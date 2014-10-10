@@ -16,6 +16,6 @@ build request.
 ~:jgb $ OVERRIDE_FOO=fighters OVERRIDE_HOME=sweethome envshuffle bash -c 'echo FOO is ${FOO}, HOME is ${HOME}'
 overriding var HOME
 overriding var FOO
-fighters sweethome
+FOO is fighters, HOME is sweethome
 ~:jgb $
 ```
