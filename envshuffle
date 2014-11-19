@@ -1,12 +1,12 @@
 #! /usr/bin/env python
 
-import json
 import os
 import re
 import sys
 
+
 def perform_env_overrides(override_string):
-    """ overwrite env variable VAR if {override_string}VAR is set  """
+    """ overwrite env variable VAR if {override_string}VAR env var is set  """
     overridden_vars = []
     for var in os.environ.keys():
         if var.startswith(override_string):
@@ -15,14 +15,24 @@ def perform_env_overrides(override_string):
             overridden_vars.append(var)
     return overridden_vars
 
+
 def exec_proggie(program, args=[]):
     os.execvp(program, args)
 
 if __name__ == '__main__':
     override_string = 'OVERRIDE_'
+    flags_string = 'ENVSHUFFLE_FLAGS'
     overridden_vars = perform_env_overrides(override_string)
-    for var in overridden_vars:
-      target_var = re.sub(override_string, '', var)
-      print "overriding var {}".format(target_var)
 
-    exec_proggie(sys.argv[1], args=sys.argv[1:])
+    for var in overridden_vars:
+        target_var = re.sub(override_string, '', var)
+        print "overriding var {}".format(target_var)
+
+    args = sys.argv[1:]
+
+    if flags_string in os.environ.keys():
+        flags = os.environ.get(flags_string).split()
+        for flag in reversed(flags):
+            args.insert(1, flag)
+
+    exec_proggie(sys.argv[1], args=args)
