@@ -33,6 +33,6 @@ if __name__ == '__main__':
     if flags_string in os.environ.keys():
         flags = os.environ.get(flags_string).split()
         for flag in reversed(flags):
-            args.insert(1, flag)
+            args.insert(2, flag)
 
     exec_proggie(sys.argv[1], args=args)
